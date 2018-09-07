@@ -1,0 +1,69 @@
+﻿@model EveryNationRandburg.Models.Image
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<head>
+    <!-- jQuery Reference -->
+    <script src="//code.jquery.com/jquery-2.1.1.min.js"></script>
+
+</head>
+<h2>Create</h2>
+
+@using (Html.BeginForm()) 
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal">
+        <h4>Image</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            <label>Select New Konnek Image:</label><input id="file" type="file" name="img">
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+
+@section scripts
+{
+<script type="text/javascript">
+        $(function () {
+            // When your form is submitted
+            $("form").submit(function (e) {
+                // Prevent the default behavior
+                e.preventDefault();
+
+                // Serialize your form
+                var formData = new FormData($(this)[0]);
+
+                // Make your POST
+                $ .ajax ({
+                    type: 'POST',
+                    url: '<%= Url.Action("SaveImage","ImagesController") %>',
+                    data: formData,
+                    cache: false,
+                    contentType: false,
+                    processData: false,
+                    success: function (view) {
+                        alert ("success");
+                    },
+                    complete: function () {
+                        alert("complete");
+                    }
+                });
+            });
+        })
+</script>
+}

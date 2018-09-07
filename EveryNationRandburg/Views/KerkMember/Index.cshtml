@@ -1,0 +1,51 @@
+﻿@model EveryNationRandburg.ViewModels.KonnekGroepViewModel
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Church Members</h2>
+
+<p>@Html.ActionLink("New Member", "Register", "Account", null, new { @class = "btn btn-primary" })</p>
+
+<table class="table table-bordered table-hover" id="kerkmembers">
+    <thead>
+    <tr>
+        <th>Member</th>
+        <th>Email</th>
+        <th>Contact Number</th>
+        <th>Connect Group</th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var member in Model.AlleKerkMembers)
+    {
+        <tr>
+            <td>@Html.ActionLink(@member.FriendlyName, "Edit", "KerkMember", new {id = @member.Id}, null)</td>
+            <td>@member.Email</td>
+            <td>@member.PhoneNumber</td>
+            @if (@member.ConnectGroup == null)
+            {
+                <td>None</td>
+            }
+            else
+            {
+                <td>@member.ConnectGroup.Name</td>
+            }
+
+        </tr>
+    }
+    </tbody>
+</table>
+
+
+@section scripts
+{
+    <script>
+        $(document).ready(function (){
+            $("#kerkmembers").DataTable();
+        })
+    </script>
+}
+

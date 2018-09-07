@@ -1,0 +1,120 @@
+﻿@model EveryNationRandburg.ViewModels.KonnekGroepViewModel
+@{
+    ViewBag.Title = "KonnekGroepForm";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<ul>
+    <h2>Connect Group</h2>
+</ul>
+
+@using (Html.BeginForm("Save", "KonnekGroep", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.ValidationSummary()
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.Name)
+        @Html.TextBoxFor(m => m.Name, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.Name)
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.Description)
+        @Html.TextBoxFor(m => m.Description, "{0:d MMM yyyy}", new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.Description)
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.Location)
+        @Html.TextBoxFor(m => m.Location, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.Location)
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.LeaderId)
+        @Html.DropDownListFor(m => m.LeaderId, new SelectList(Model.KonnekLede, "Id", "FriendlyName"), "None", new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.LeaderId)
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.SecondInCommandId)
+        @Html.DropDownListFor(m => m.SecondInCommandId, new SelectList(Model.KonnekLede, "Id", "FriendlyName"), "None", new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.SecondInCommandId)
+    </div>
+
+
+    <div class="form-group">
+        @if (Model.KonnekGroep != null)
+        {
+            if (Model.KonnekGroep.ImageData == null)
+            {
+                <img width="250" height="180" src="~/Content/Image/defaultKonnek.png" />
+            }
+            else
+            {
+                <img width="250" height="180" src="data:image; base64, @Convert.ToBase64String(Model.KonnekGroep.ImageData)" />
+            }
+        }
+        else
+        {
+            <img width="250" height="180" src="~/Content/Image/defaultKonnek.png" />
+        }
+
+
+        <br />
+        <label>Select New Konnek Image:</label><input type="file" name="uploadImages" />
+    </div>
+
+    @Html.HiddenFor(m => m.Id)
+    @Html.AntiForgeryToken()
+
+    <button type="submit" class="btn btn-primary">Save</button>
+}
+
+<ul>
+    <h2>Group Members</h2>
+</ul>
+
+<table class="table table-bordered table-hover" id="konnekmembers">
+    <thead>
+        <tr>
+            <th>Connect Member</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var @member in Model.KonnekLede)
+            {
+                string name = @member.FriendlyName;
+            <p>
+
+                @if (@member.Id == Model.LeaderId.ToString())
+                {
+                    name += " (leader)";
+                }
+                else if (@member.Id == Model.SecondInCommandId.ToString())
+                {
+                    name += " (second in command)";
+                }
+            </p>
+
+            <tr>
+                <td>@name</td>
+            </tr>
+        }
+
+    </tbody>
+</table>
+
+
+@section scripts
+{
+    <script>
+        $(document).ready(function () {
+            $("#konnekmembers").DataTable();
+        })
+    </script>
+
+    @Scripts.Render("~/ bundles / jqueryval")
+}
+
+

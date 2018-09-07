@@ -1,0 +1,55 @@
+﻿@model EveryNationRandburg.ViewModels.KerkMemberViewModel
+@{
+    ViewBag.Title = "KerkMemberForm";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Church Member</h2>
+
+@using (Html.BeginForm("Save", "Account"))
+{
+    @Html.ValidationSummary()
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.FirstName)
+        @Html.TextBoxFor(m => m.FirstName, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.FirstName)
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.Surname)
+        @Html.TextBoxFor(m => m.Surname, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.Surname)
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.Email)
+        @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.Email)
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.ContactNumber)
+        @Html.TextBoxFor(m => m.ContactNumber, new {@class = "form-control"})
+        @Html.ValidationMessageFor(m => m.ContactNumber)
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.ConnectGroupId)
+        @Html.DropDownListFor(m => m.ConnectGroupId, new SelectList(Model.AlleKonnekGroepe, "Id", "Name"), "None", new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.ConnectGroupId)
+    </div>
+
+
+
+    @Html.HiddenFor(m => m.Id)
+    @Html.AntiForgeryToken()
+    <button type="submit" class="btn btn-primary">Save</button>
+
+}
+
+@section scripts
+{
+
+    @Scripts.Render("~/ bundles / jqueryval")
+}

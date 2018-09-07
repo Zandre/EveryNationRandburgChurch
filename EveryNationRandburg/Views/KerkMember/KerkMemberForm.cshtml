@@ -1,0 +1,59 @@
+﻿@model EveryNationRandburg.ViewModels.KonnekGroepViewModel
+@{
+    ViewBag.Title = "KerkMemberForm";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Church Member</h2>
+
+@using (Html.BeginForm("Save", "KerkMember"))
+{
+    @Html.ValidationSummary()
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.MemberName)
+        @Html.TextBoxFor(m => m.MemberName, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.MemberName)
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.MemberSurname)
+        @Html.TextBoxFor(m => m.MemberSurname, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.MemberSurname)
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.MemberEmail)
+        @Html.TextBoxFor(m => m.MemberEmail, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.MemberEmail)
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.MemberPhoneNumber)
+        @Html.TextBoxFor(m => m.MemberPhoneNumber, new {@class = "form-control"})
+        @Html.ValidationMessageFor(m => m.MemberPhoneNumber)
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.MemberKonnekGroepId)
+        @Html.DropDownListFor(m => m.MemberKonnekGroepId, new SelectList(Model.AlleKonnekGroepe, "Id", "Name"), "None", new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.MemberKonnekGroepId)
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.MemberPassword)
+        @Html.PasswordFor(m => m.MemberPassword, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.MemberPassword)
+    </div>
+
+    @Html.HiddenFor(m => m.MemberId)
+    @Html.AntiForgeryToken()
+    <button type="submit" class="btn btn-primary">Save</button>
+
+}
+
+@section scripts
+{
+
+    @Scripts.Render("~/ bundles / jqueryval")
+}

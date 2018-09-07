@@ -1,0 +1,59 @@
+﻿@model EveryNationRandburg.ViewModels.KonnekGroepViewModel
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Connect Groups</h2>
+
+<p>@Html.ActionLink("New Connect Group", "New", "KonnekGroep", null, new { @class = "btn btn-primary" })</p>
+
+<table class="table table-bordered table-hover" id="konnekgroepe">
+    <thead>
+    <tr>
+        <th>Connect Group</th>
+        <th>Area</th>
+        <th>Leader</th>
+        <th>Second in Command</th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var groep in Model.AlleKonnekGroepe)
+    {
+        <tr>
+            <td>@Html.ActionLink(groep.Name, "Edit", "KonnekGroep", new {id = groep.Id}, null)</td>
+            <td>@groep.Location</td>
+
+            @if (@groep.KerkMemberLeader == null)
+            {
+                <td>None</td>
+            }
+            else
+            {
+
+                <td>@groep.KerkMemberLeader.FriendlyName</td>
+            }
+
+            @if (@groep.KerkMemberSecondInCommand == null)
+            {
+                <td>None</td>
+            }
+            else
+            {
+                var @name = @groep.KerkMemberSecondInCommand.FriendlyName;
+                <td>@name</td>
+            }
+        </tr>
+    }
+    </tbody>
+</table>
+
+@section scripts
+{
+    <script>
+        $(document).ready(function (){
+            $("#konnekgroepe").DataTable();
+        })
+    </script>
+}

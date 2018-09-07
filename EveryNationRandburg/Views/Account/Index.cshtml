@@ -1,0 +1,49 @@
+﻿@using EveryNationRandburg.Models
+@model EveryNationRandburg.ViewModels.AllUsers
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Church Members</h2>
+
+<p>@Html.ActionLink("New Member", "Register", "Account", null, new { @class = "btn btn-primary" })</p>
+
+<table class="table table-bordered table-hover" id="kerkmembers">
+    <thead>
+    <tr>
+        <th>Member</th>
+        <th>Connect Group</th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var member in Model.AlleKerkMembers)
+    {
+        <tr>
+            <td>@Html.ActionLink(@member.FriendlyName, "Edit", "Account", new { id = @member.Id }, null)</td>
+
+            @if (@member.KonnekGroepId == 0)
+            {
+                <td>None</td>
+            }
+            else
+            {
+                
+                <td>@Model.AlleKonnekGroepe.Single(k => k.Id == @member.KonnekGroepId).Name</td>
+            }
+        </tr>
+    }
+    </tbody>
+</table>
+
+
+@section scripts
+{
+    <script>
+        $(document).ready(function (){
+            $("#kerkmembers").DataTable();
+        })
+    </script>
+}
+
